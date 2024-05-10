@@ -1,0 +1,2 @@
+./k6 run -o 'web-dashboard=open=true&port=5666&period=2s&report=test-result.html' -e TEST_TYPE=load -e RPS=1 -e TARGET_VUS=1 tests/restful-api/post-endpoint.js &
+./k6 run -o 'web-dashboard=open=true&port=5667&period=2s&report=test-result.html' -e TEST_TYPE=load -e RPS=1 -e TARGET_VUS=1 tests/restful-api/post-endpoint2.js

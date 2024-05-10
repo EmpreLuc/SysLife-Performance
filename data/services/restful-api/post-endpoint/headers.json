@@ -1,0 +1,12 @@
+[
+    {
+        "Content-Type": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept": "*/*"
+    },
+    {
+        "Content-Type": "application/MODIFICADO",
+        "Accept-Encoding": "xxxxxx",
+        "Accept": "ERROR"
+    }
+]
