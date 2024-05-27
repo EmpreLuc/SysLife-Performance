@@ -4,6 +4,7 @@ import loadConfig from '../../setup/loadConfig.js';
 import postApiThresholdsConfig from '../../setup/restful-api/postApiThresholdsConfig.js';
 import { getRandomInt } from './../../utils/random.js';
 import { cargarHeadersDesdeJSON } from '../../utils/headersUtils.js';
+import httpagg from 'k6/x/httpagg';
 
 const testType = __ENV.TEST_TYPE;
 const rps = __ENV.RPS || 0;
@@ -16,16 +17,16 @@ export const options = Object.assign({
     rps: rps,
 }, loadConfig[testType], postApiThresholdsConfig[testType])
 
-/* export function setup() {
+export function setup() {
     console.log(JSON.stringify(options, null, 2));
-} */
+}
 
 const body = JSON.parse(open(jsonBody));
 const headers = cargarHeadersDesdeJSON(jsonHeaders, 0);
 const urls = JSON.parse(open(jsonUrl));
 const url = urls[0].baseUrl + urls[0].postUrl
 
-export default function () {
+export function p1() {
     group('POST /objects', function () {
         console.log('BODY: ' + JSON.stringify(body[getRandomInt(body.length)]));
         console.log('HEADERS: ' + JSON.stringify(headers));
@@ -36,7 +37,12 @@ export default function () {
         check(res, {
             'is status code 200': (r) => r.status === 200
         });
+        httpagg.checkRequest(res, !check);
 
         console.log('BODY RESPONSE: ' + JSON.stringify(res.body));
     });
+}
+
+export function teardown() {
+    generateReport();
 }

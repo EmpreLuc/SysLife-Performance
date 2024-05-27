@@ -22,5 +22,9 @@ export default {
   "breakpoint": {
     "thresholds": {
       "http_req_duration": ["avg<400", "p(95)<400"]
+  }},
+  "rate": {
+    "thresholds": {
+      "http_req_duration": ["avg<400", "p(95)<400"]
   }}
 };
