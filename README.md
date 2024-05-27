@@ -1,7 +1,14 @@
 
 # K6 Performance Testing
 
-This project attempts to structure a performance testing K6 framework with .json files that contain URL, body, parameters, and headers.
+The project is structured to utilize .json files that define URLs, bodies, parameters, and headers for the performance tests. This allows for easy configuration and maintenance of test scenarios.
+
+the main idea is to use folders to group different parts: 
+- The data used by each API and endpoint (headers,body,query params, etc) in the folder 'data'.
+- A 'setup' folder containing a loadConfig.js file with the preloaded test types to run and the threshholds and rateThresholds grouped by API and endpoint.
+- A 'tests' folder where we will group the tests by API and endpoint.
+
+Note: for each API we decided to add a file that groups all endpoints into a single test with 'constant-arrival-rate' executor to generate a constant request rate per hour. You can see the tests\restful-api\restful-api-rate.js example.
 
 # Dependencies
 
@@ -34,19 +41,14 @@ The k6.exe binaries is included in the repositorie, but if you need to generate 
 xk6 build v0.51.0 --with github.com/gpiechnik2/xk6-httpagg --with github.com/grafana/xk6-dashboard@v0.7.3
 ```
 
-# Project Structure
-The project is structured to utilize .json files that define URLs, bodies, parameters, and headers for the performance tests. This allows for easy configuration and maintenance of test scenarios.
-
-the main idea is to use folders to group different parts: 
-- The data used by each API and endpoint (headers,body,query params, etc) in the folder 'data'.
-- A 'setup' folder containing a loadConfig.js file with the preloaded test types to run and the threshholds and rateThresholds grouped by API and endpoint.
-- A 'tests' folder where we will group the tests by API and endpoint.
-
-Note: for each API we decided to add a file that groups all endpoints into a single test with 'constant-arrival-rate' executor to generate a constant request rate per hour. You can see the tests\restful-api\restful-api-rate.js example.
-
 # Running Tests
 Configure your test scenarios in the .json files located in the data directory.
 Run the tests using K6 by executing the appropriate command in your terminal.
+
+## Environment Variables
+- **TEST_TYPE:** Type of test to be executed configured in `setup\loadConfig.js` (load, stress, spike, breakpoint, endurance).
+- **RPS:** Requests per second (`0` or empty for unlimited).
+- **TARGET_VUS:** The target number of VUS (Virtual Users Simultaneously).
 
 Specific endpoint test execution example
 ```sh
