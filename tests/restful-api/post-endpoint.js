@@ -5,6 +5,8 @@ import postApiThresholdsConfig from '../../setup/restful-api/postApiThresholdsCo
 import { getRandomInt } from './../../utils/random.js';
 import { cargarHeadersDesdeJSON } from '../../utils/headersUtils.js';
 import httpagg from 'k6/x/httpagg';
+import generateReport from '../../utils/report.js';
+
 
 const testType = __ENV.TEST_TYPE;
 const rps = __ENV.RPS || 0;
@@ -26,7 +28,7 @@ const headers = cargarHeadersDesdeJSON(jsonHeaders, 0);
 const urls = JSON.parse(open(jsonUrl));
 const url = urls[0].baseUrl + urls[0].postUrl
 
-export function p1() {
+export default function p1() {
     group('POST /objects', function () {
         console.log('BODY: ' + JSON.stringify(body[getRandomInt(body.length)]));
         console.log('HEADERS: ' + JSON.stringify(headers));
